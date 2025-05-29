@@ -1,10 +1,52 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Check, Globe, Target, Users, Calendar, Play, Star, Clock, MessageCircle, BookOpen, Trophy, Coffee } from "lucide-react";
 import AIAgent from "@/components/AIAgent";
+import TrialLessonForm from "@/components/TrialLessonForm";
+import SubscriptionForm from "@/components/SubscriptionForm";
 
 const Index = () => {
+  const [trialDialogOpen, setTrialDialogOpen] = useState(false);
+  const [subscriptionDialogOpen, setSubscriptionDialogOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState({
+    duration: "",
+    price: "",
+    color: ""
+  });
+
+  const subscriptionPlans = [
+    {
+      duration: "3 МЕСЯЦА",
+      price: "89250 ₸",
+      color: "#eab308", // yellow-500
+      originalPrice: "35000 ₸×3=105000"
+    },
+    {
+      duration: "6 МЕСЯЦЕВ",
+      price: "156000 ₸",
+      color: "#a855f7", // purple-500
+      originalPrice: "35000 ₸×6=210000"
+    },
+    {
+      duration: "9 МЕСЯЦЕВ",
+      price: "207000 ₸",
+      color: "#3b82f6", // blue-500
+      originalPrice: "35000 ₸×9=315000"
+    }
+  ];
+
+  const handlePlanSelect = (plan: typeof subscriptionPlans[0]) => {
+    setSelectedPlan({
+      duration: plan.duration,
+      price: plan.price,
+      color: plan.color
+    });
+    setSubscriptionDialogOpen(true);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-500 via-purple-600 to-blue-600 relative overflow-hidden">
       {/* Decorative dots pattern */}
@@ -44,9 +86,14 @@ const Index = () => {
                 Бесплатный урок
               </Badge>
             </div>
-            <Button size="lg" className="bg-white text-purple-600 hover:bg-gray-100 text-xl px-8 py-4">
-              Записаться на пробный урок
-            </Button>
+            <Dialog open={trialDialogOpen} onOpenChange={setTrialDialogOpen}>
+              <DialogTrigger asChild>
+                <Button size="lg" className="bg-white text-purple-600 hover:bg-gray-100 text-xl px-8 py-4">
+                  Записаться на пробный урок
+                </Button>
+              </DialogTrigger>
+              <TrialLessonForm />
+            </Dialog>
           </div>
           
           <div className="lg:w-1/2 flex justify-center">
@@ -156,151 +203,55 @@ const Index = () => {
             Выберите подходящий план обучения
           </p>
           
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {/* 3 месяца */}
-            <Card className="bg-white/15 backdrop-blur-sm border-white/30 hover:scale-105 transition-all duration-300 relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-yellow-400 to-orange-500"></div>
-              <CardHeader className="text-center pb-4">
-                <Badge className="bg-yellow-400 text-black font-bold text-lg px-4 py-2 mx-auto mb-4">
-                  3 МЕСЯЦА
-                </Badge>
-                <div className="text-white">
-                  <div className="text-3xl font-bold line-through opacity-60">35000 ₸×3=105000</div>
-                  <div className="text-5xl font-bold text-yellow-300">89250 ₸</div>
-                </div>
-              </CardHeader>
-              <CardContent className="text-white space-y-3">
-                <div className="flex items-center">
-                  <Check className="mr-3 text-green-400" size={20} />
-                  <span>6 часов в неделю</span>
-                </div>
-                <div className="flex items-center">
-                  <Check className="mr-3 text-green-400" size={20} />
-                  <span>Каждую субботу интерактивы</span>
-                </div>
-                <div className="flex items-center">
-                  <Check className="mr-3 text-green-400" size={20} />
-                  <span>Дискуссии</span>
-                </div>
-                <div className="flex items-center">
-                  <Check className="mr-3 text-green-400" size={20} />
-                  <span>Игры</span>
-                </div>
-                <div className="flex items-center">
-                  <Check className="mr-3 text-green-400" size={20} />
-                  <span>Праздничные вечеринки</span>
-                </div>
-                <div className="flex items-center">
-                  <Check className="mr-3 text-green-400" size={20} />
-                  <span>Просмотр фильмов</span>
-                </div>
-                <div className="flex items-center">
-                  <Check className="mr-3 text-green-400" size={20} />
-                  <span>Speaking Club</span>
-                </div>
-                <Button className="w-full mt-6 bg-yellow-400 text-black hover:bg-yellow-500 font-semibold">
-                  Выбрать план
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* 6 месяцев */}
-            <Card className="bg-white/15 backdrop-blur-sm border-white/30 hover:scale-105 transition-all duration-300 relative overflow-hidden border-2 border-purple-400">
-              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-purple-400 to-pink-500"></div>
-              <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-purple-500 text-white font-bold px-4 py-1">
-                ПОПУЛЯРНЫЙ
-              </Badge>
-              <CardHeader className="text-center pb-4 pt-8">
-                <Badge className="bg-purple-500 text-white font-bold text-lg px-4 py-2 mx-auto mb-4">
-                  6 МЕСЯЦЕВ
-                </Badge>
-                <div className="text-white">
-                  <div className="text-3xl font-bold line-through opacity-60">35000 ₸×6=210000</div>
-                  <div className="text-5xl font-bold text-purple-300">156000 ₸</div>
-                </div>
-              </CardHeader>
-              <CardContent className="text-white space-y-3">
-                <div className="flex items-center">
-                  <Check className="mr-3 text-green-400" size={20} />
-                  <span>6 часов в неделю</span>
-                </div>
-                <div className="flex items-center">
-                  <Check className="mr-3 text-green-400" size={20} />
-                  <span>Каждую субботу интерактивы</span>
-                </div>
-                <div className="flex items-center">
-                  <Check className="mr-3 text-green-400" size={20} />
-                  <span>Дискуссии</span>
-                </div>
-                <div className="flex items-center">
-                  <Check className="mr-3 text-green-400" size={20} />
-                  <span>Игры</span>
-                </div>
-                <div className="flex items-center">
-                  <Check className="mr-3 text-green-400" size={20} />
-                  <span>Праздничные вечеринки</span>
-                </div>
-                <div className="flex items-center">
-                  <Check className="mr-3 text-green-400" size={20} />
-                  <span>Просмотр фильмов</span>
-                </div>
-                <div className="flex items-center">
-                  <Check className="mr-3 text-green-400" size={20} />
-                  <span>Speaking Club</span>
-                </div>
-                <Button className="w-full mt-6 bg-purple-500 text-white hover:bg-purple-600 font-semibold">
-                  Выбрать план
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* 9 месяцев */}
-            <Card className="bg-white/15 backdrop-blur-sm border-white/30 hover:scale-105 transition-all duration-300 relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-400 to-indigo-500"></div>
-              <CardHeader className="text-center pb-4">
-                <Badge className="bg-blue-500 text-white font-bold text-lg px-4 py-2 mx-auto mb-4">
-                  9 МЕСЯЦЕВ
-                </Badge>
-                <div className="text-white">
-                  <div className="text-3xl font-bold line-through opacity-60">35000 ₸×9=315000</div>
-                  <div className="text-5xl font-bold text-blue-300">207000 ₸</div>
-                </div>
-              </CardHeader>
-              <CardContent className="text-white space-y-3">
-                <div className="flex items-center">
-                  <Check className="mr-3 text-green-400" size={20} />
-                  <span>6 часов в неделю</span>
-                </div>
-                <div className="flex items-center">
-                  <Check className="mr-3 text-green-400" size={20} />
-                  <span>Каждую субботу интерактивы</span>
-                </div>
-                <div className="flex items-center">
-                  <Check className="mr-3 text-green-400" size={20} />
-                  <span>Дискуссии</span>
-                </div>
-                <div className="flex items-center">
-                  <Check className="mr-3 text-green-400" size={20} />
-                  <span>Игры</span>
-                </div>
-                <div className="flex items-center">
-                  <Check className="mr-3 text-green-400" size={20} />
-                  <span>Праздничные вечеринки</span>
-                </div>
-                <div className="flex items-center">
-                  <Check className="mr-3 text-green-400" size={20} />
-                  <span>Просмотр фильмов</span>
-                </div>
-                <div className="flex items-center">
-                  <Check className="mr-3 text-green-400" size={20} />
-                  <span>Speaking Club</span>
-                </div>
-                <Button className="w-full mt-6 bg-blue-500 text-white hover:bg-blue-600 font-semibold">
-                  Выбрать план
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
+          <Dialog open={subscriptionDialogOpen} onOpenChange={setSubscriptionDialogOpen}>
+            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              {subscriptionPlans.map((plan, index) => (
+                <Card key={index} className={`bg-white/15 backdrop-blur-sm border-white/30 hover:scale-105 transition-all duration-300 relative overflow-hidden ${index === 1 ? 'border-2 border-purple-400' : ''}`}>
+                  <div className="absolute top-0 left-0 w-full h-2" style={{ background: `linear-gradient(to right, ${plan.color}, ${plan.color}90)` }}></div>
+                  {index === 1 && (
+                    <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-purple-500 text-white font-bold px-4 py-1">
+                      ПОПУЛЯРНЫЙ
+                    </Badge>
+                  )}
+                  <CardHeader className={`text-center pb-4 ${index === 1 ? 'pt-8' : ''}`}>
+                    <Badge className="font-bold text-lg px-4 py-2 mx-auto mb-4" style={{ backgroundColor: plan.color, color: 'white' }}>
+                      {plan.duration}
+                    </Badge>
+                    <div className="text-white">
+                      <div className="text-3xl font-bold line-through opacity-60">{plan.originalPrice}</div>
+                      <div className="text-5xl font-bold" style={{ color: plan.color }}>{plan.price}</div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="text-white space-y-3">
+                    {[
+                      "6 часов в неделю",
+                      "Каждую субботу интерактивы",
+                      "Дискуссии",
+                      "Игры",
+                      "Праздничные вечеринки",
+                      "Просмотр фильмов",
+                      "Speaking Club"
+                    ].map((feature, featureIndex) => (
+                      <div key={featureIndex} className="flex items-center">
+                        <Check className="mr-3 text-green-400" size={20} />
+                        <span>{feature}</span>
+                      </div>
+                    ))}
+                    <DialogTrigger asChild>
+                      <Button 
+                        className="w-full mt-6 font-semibold" 
+                        style={{ backgroundColor: plan.color, color: 'white' }}
+                        onClick={() => handlePlanSelect(plan)}
+                      >
+                        Выбрать план
+                      </Button>
+                    </DialogTrigger>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+            <SubscriptionForm plan={selectedPlan} />
+          </Dialog>
         </div>
       </section>
 
@@ -314,9 +265,14 @@ const Index = () => {
             Запишитесь на бесплатный пробный урок и убедитесь в эффективности наших методов
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-yellow-400 text-black hover:bg-yellow-500 text-xl px-8 py-4">
-              Бесплатный пробный урок
-            </Button>
+            <Dialog open={trialDialogOpen} onOpenChange={setTrialDialogOpen}>
+              <DialogTrigger asChild>
+                <Button size="lg" className="bg-yellow-400 text-black hover:bg-yellow-500 text-xl px-8 py-4">
+                  Бесплатный пробный урок
+                </Button>
+              </DialogTrigger>
+              <TrialLessonForm />
+            </Dialog>
             <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-purple-600 text-xl px-8 py-4">
               Связаться с нами
             </Button>
