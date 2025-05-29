@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -17,6 +17,35 @@ const Index = () => {
     color: ""
   });
 
+  useEffect(() => {
+    const originalScrollBehavior = document.documentElement.style.scrollBehavior;
+    
+    document.documentElement.style.scrollBehavior = 'auto';
+    
+    if (window.location.hash) {
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+    
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    
+    setTimeout(() => {
+      document.documentElement.style.scrollBehavior = originalScrollBehavior;
+      window.scrollTo(0, 0); // Ещё раз для уверенности
+    }, 100);
+    
+    const finalCheck = setTimeout(() => {
+      if (window.pageYOffset > 0) {
+        window.scrollTo(0, 0);
+      }
+    }, 300);
+    
+    return () => {
+      clearTimeout(finalCheck);
+    };
+  }, []);
+
   const subscriptionPlans = [
     {
       duration: "3 МЕСЯЦА",
@@ -27,13 +56,13 @@ const Index = () => {
     {
       duration: "6 МЕСЯЦЕВ",
       price: "156000 ₸",
-      color: "#a855f7", // purple-500
+      color: "#eab308", // purple-500
       originalPrice: "35000 ₸×6=210000"
     },
     {
       duration: "9 МЕСЯЦЕВ",
       price: "207000 ₸",
-      color: "#3b82f6", // blue-500
+      color: "#eab308", // blue-500
       originalPrice: "35000 ₸×9=315000"
     }
   ];
@@ -48,13 +77,14 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-500 via-purple-600 to-blue-600 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-red-500 via-purple-600 to-blue-600 relative overflow-hidden" tabIndex={-1}>
       {/* Decorative dots pattern */}
       <div className="absolute inset-0 opacity-20">
         {Array.from({ length: 80 }).map((_, i) => (
           <div
             key={i}
             className="absolute w-2 h-2 bg-white rounded-full animate-pulse"
+            tabIndex={-1}
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
@@ -79,16 +109,16 @@ const Index = () => {
               Изучай английский с гарантией результата
             </p>
             <div className="flex flex-wrap gap-4 mb-8">
-              <Badge className="bg-yellow-400 text-black font-semibold px-4 py-2 text-lg">
+              <Badge variant="outline"  className="bg-yellow-400 text-black font-semibold px-4 py-2 text-lg">
                 IELTS 7.5 баллов
               </Badge>
-              <Badge className="bg-white text-purple-600 font-semibold px-4 py-2 text-lg">
+              <Badge variant="outline"  className="bg-white text-purple-600 font-semibold px-4 py-2 text-lg">
                 Бесплатный урок
               </Badge>
             </div>
             <Dialog open={trialDialogOpen} onOpenChange={setTrialDialogOpen}>
               <DialogTrigger asChild>
-                <Button size="lg" className="bg-white text-purple-600 hover:bg-gray-100 text-xl px-8 py-4">
+                <Button size="lg" className="bg-white text-purple-600 hover:bg-gray-400 text-xl px-8 py-4">
                   Записаться на пробный урок
                 </Button>
               </DialogTrigger>
@@ -273,7 +303,7 @@ const Index = () => {
               </DialogTrigger>
               <TrialLessonForm />
             </Dialog>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-purple-600 text-xl px-8 py-4">
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white text-purple-600 text-xl px-8 py-4">
               Связаться с нами
             </Button>
           </div>

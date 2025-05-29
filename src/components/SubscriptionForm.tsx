@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -47,7 +46,10 @@ const SubscriptionForm = ({ plan }: SubscriptionFormProps) => {
   };
 
   return (
-    <DialogContent className="sm:max-w-md">
+    <DialogContent 
+      className="sm:max-w-md"
+      onCloseAutoFocus={(e) => e.preventDefault()}
+    >
       <DialogHeader>
         <DialogTitle className="text-2xl font-bold text-center" style={{ color: plan.color }}>
           Покупка абонемента

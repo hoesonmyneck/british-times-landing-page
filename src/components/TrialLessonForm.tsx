@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -41,7 +40,10 @@ const TrialLessonForm = () => {
   };
 
   return (
-    <DialogContent className="sm:max-w-md">
+    <DialogContent 
+      className="sm:max-w-md"
+      onCloseAutoFocus={(e) => e.preventDefault()}
+    >
       <DialogHeader>
         <DialogTitle className="text-2xl font-bold text-center text-purple-600">
           Записаться на бесплатный урок

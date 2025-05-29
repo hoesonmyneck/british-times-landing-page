@@ -1,4 +1,3 @@
-
 import { Bot, MessageCircle, X, Send } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -156,19 +155,17 @@ const AIAgent = () => {
         </Card>
       )}
       
-      <Button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-16 h-16 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110"
-      >
-        {isOpen ? (
-          <X size={24} className="text-white" />
-        ) : (
+      {!isOpen && (
+        <Button
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-16 h-16 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110"
+        >
           <div className="relative">
             <Bot size={24} className="text-white" />
             <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
           </div>
-        )}
-      </Button>
+        </Button>
+      )}
     </div>
   );
 };
