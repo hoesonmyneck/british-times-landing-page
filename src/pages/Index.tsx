@@ -1,8 +1,8 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, Globe, Target, Users, Calendar, Play, Star, Clock, MessageCircle, BookOpen, Trophy, Coffee } from "lucide-react";
+import AIAgent from "@/components/AIAgent";
 
 const Index = () => {
   return (
@@ -339,6 +339,9 @@ const Index = () => {
           </p>
         </div>
       </footer>
+
+      {/* AI Agent Component */}
+      <AIAgent />
     </div>
   );
 };
